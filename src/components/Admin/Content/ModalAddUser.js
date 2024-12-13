@@ -64,17 +64,17 @@ const ModalAddUser = ({ show, setShowModalAddUser }) => {
     }
 
     try {
-      let res = await postAddUser(email, username, password, role, image);
-      if (res && res.data) {
-        if (res.data.EC === 0) {
+      let data = await postAddUser(email, username, password, role, image);
+      if (data) {
+        if (data.EC === 0) {
           handleClose();
-          toast.success(res.data.EM);
+          toast.success(data.EM);
         } else {
-          toast.warn(res.data.EM);
+          toast.warn(data.EM);
         }
       } else {
         handleClose();
-        toast.error(res.data.EM || "Có lỗi xảy ra");
+        toast.error(data.EM || "Có lỗi xảy ra");
       }
     } catch (error) {
       toast.error(error.message);

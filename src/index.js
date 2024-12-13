@@ -25,7 +25,9 @@ root.render(
         </Route>
         <Route path="/admin" element={<Admin />}>
           <Route index element={<Dashboard />} />
-          <Route path="manage-user" element={<ManageUser />} />
+          <Route path="manage-user" element={<ManageUser />}>
+            <Route path="page/:pageNumber" element={<ManageUser />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

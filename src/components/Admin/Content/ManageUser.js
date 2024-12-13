@@ -1,31 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalAddUser from "./ModalAddUser";
 import "./ManageUser.scss";
 import { FaPlus } from "react-icons/fa";
 import { getParticipant } from "../../../services/ApiService";
 import { toast } from "react-toastify";
+import { useParams, useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+import TableUser from "./TableUser";
 
-const getAllParticipant = async () => {
-  let page = 1;
-  let limit = 2;
-  try {
-    const res = await getParticipant(page, limit);
-    if (res && res.data) {
-      if (res.data.EC === 0) {
-      } else {
-        toast.warn(res.data.EM);
-      }
-    } else {
-      handleClose();
-      toast.error(res.data.EM || "Có lỗi xảy ra");
-    }
-  } catch (error) {
-    alert(error.message);
-  }
-};
-
-const ManageUser = (props) => {
+const ManageUser = () => {
   const [showModalAddUser, setShowModalAddUser] = useState(false);
+  const { pageNumber } = useParams();
+  const limit = 4;
+
   return (
     <div className="manage-user-container">
       <div className="title">Manage users</div>
@@ -36,40 +23,12 @@ const ManageUser = (props) => {
           </button>
         </div>
         <div className="table-user-container">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table>
+          <TableUser currentPage={pageNumber} limit={limit} />
         </div>
       </div>
-      {<ModalAddUser show={showModalAddUser} setShowModalAddUser={setShowModalAddUser} />}
+      <ModalAddUser show={showModalAddUser} setShowModalAddUser={setShowModalAddUser} />
     </div>
   );
 };
+
 export default ManageUser;
