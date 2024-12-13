@@ -4,3 +4,68 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.app-container {
+  .header-container {
+    .btn-login {
+      border-radius: 5px;
+      margin-right: 15px;
+      padding: 0px 15px;
+      border: 1px solid #535353;
+      height: 40px;
+      &:hover {
+        background-color: #fffafa;
+      }
+    }
+    .btn-signup {
+      border-radius: 5px;
+      padding: 0 15px;
+      border: 1px solid #535353;
+      background-color: #272727;
+      color: #ffffff;
+      height: 40px;
+
+      &:hover {
+        background-color: #4d4c4c;
+      }
+    }
+    .navbar {
+      padding-top: 20px;
+      z-index: 10;
+      background-color: rgba(0, 0, 0, 0) !important;
+      .nav-link {
+        &.active {
+          color: red;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .homepage-content {
+    padding: 100px;
+    position: relative;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .title-1 {
+      font-size: 35px;
+      font-weight: 700;
+    }
+
+    .title-2 {
+      font-size: 25px;
+    }
+    .title-3 {
+      font-size: 25px;
+    }
+  }
+}
+
+video {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+}
