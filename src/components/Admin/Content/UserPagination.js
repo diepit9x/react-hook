@@ -11,19 +11,21 @@ const UserPagination = (props) => {
     navigate(`/admin/manage-user/page/${newPageNumber}`);
   };
   return (
-    <div className="pagination-container">
-      <ReactPaginate
-        forcePage={currentPage - 1 || 0}
-        pageCount={totalPages} // Sử dụng totalPages từ dữ liệu
-        pageRangeDisplayed={range} // Hiển thị số trang cần thiết
-        marginPagesDisplayed={limit} // Hiển thị thêm các trang ở đầu và cuối
-        onPageChange={handlePageClick} // Sự kiện khi click vào trang
-        containerClassName={"pagination"} // Class cho phần tử chứa
-        activeClassName={"active"} // Class cho trang đang chọn
-        previousLabel={"Previous"} // Nhãn cho nút "Previous"
-        nextLabel={"Next"} // Nhãn cho nút "Next"
-      />
-    </div>
+    <>
+      {totalPages > 1 && (
+        <ReactPaginate
+          forcePage={currentPage - 1 || 0}
+          pageCount={totalPages} // Sử dụng totalPages từ dữ liệu
+          pageRangeDisplayed={range} // Hiển thị số trang cần thiết
+          marginPagesDisplayed={limit} // Hiển thị thêm các trang ở đầu và cuối
+          onPageChange={handlePageClick} // Sự kiện khi click vào trang
+          containerClassName={"pagination"} // Class cho phần tử chứa
+          activeClassName={"active"} // Class cho trang đang chọn
+          previousLabel={"Previous"} // Nhãn cho nút "Previous"
+          nextLabel={"Next"} // Nhãn cho nút "Next"
+        />
+      )}
+    </>
   );
 };
 export default UserPagination;

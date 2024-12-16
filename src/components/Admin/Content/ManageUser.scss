@@ -100,3 +100,8 @@
   background-color: #007bff;
   color: white;
 }
+
+li.disable,
+li.disabled a {
+  display: none;
+}

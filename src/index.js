@@ -12,6 +12,8 @@ import Admin from "./components/Admin/Admin";
 import Home from "./components/Home/Home";
 import Dashboard from "./components/Admin/Content/Dashboard";
 import ManageUser from "./components/Admin/Content/ManageUser";
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const reduxStore = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -29,6 +31,8 @@ root.render(
             <Route path="page/:pageNumber" element={<ManageUser />} />
           </Route>
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   </Provider>

@@ -1,35 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
-import { postAddUser } from "../../../services/ApiService";
+import { putUpdateUser } from "../../../services/ApiService";
+import _ from "lodash";
 
-const ModalAddUser = ({ show, setShowModalAddUser, setRefreshTable }) => {
+const ModalUpdateUser = (props) => {
+  const { show, setShowModalUpdateUser, setRefreshTable, dataUpdateUser } = props;
   const handleClose = () => {
-    setShowModalAddUser(false);
+    setShowModalUpdateUser(false);
     setEmail("");
     setUsername("");
-    setPassword("");
     setRole("USER");
     setImage("");
     setPreviewImage("");
   };
-
+  const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [role, setRole] = useState("USER");
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
-  const onChangeEmail = (event) => {
-    setEmail(event.target.value);
-  };
+  useEffect(() => {
+    if (!_.isEmpty(dataUpdateUser)) {
+      setId(dataUpdateUser.id);
+      setEmail(dataUpdateUser.email);
+      setUsername(dataUpdateUser.username);
+      setRole(dataUpdateUser.role);
+      setPreviewImage(dataUpdateUser.image ? `data:image/jpeg;base64,${dataUpdateUser.image}` : "");
+    }
+  }, [dataUpdateUser]);
+
   const onChangeUsername = (event) => {
     setUsername(event.target.value);
-  };
-  const onChangePassword = (event) => {
-    setPassword(event.target.value);
   };
   const onChangeRole = (event) => {
     setRole(event.target.value);
@@ -47,23 +51,15 @@ const ModalAddUser = ({ show, setShowModalAddUser, setRefreshTable }) => {
     }
   };
 
-  const handleSubmitAddUser = async () => {
+  const handleSubmitUpdateUser = async () => {
     //validator
-    if (!required(email)) {
-      toast.warn("Vui lòng nhập email");
-      return;
-    }
     if (!required(username)) {
       toast.warn("Vui lòng nhập username");
       return;
     }
-    if (!required(password)) {
-      toast.warn("Vui lòng nhập password");
-      return;
-    }
 
     try {
-      let data = await postAddUser(email, username, password, role, image);
+      let data = await putUpdateUser(id, username, role, image);
       if (data) {
         if (data.EC === 0) {
           handleClose();
@@ -85,14 +81,14 @@ const ModalAddUser = ({ show, setShowModalAddUser, setRefreshTable }) => {
     <>
       <Modal backdrop="static" size="xl" show={show} onHide={handleClose} className="modal-add-user">
         <Modal.Header closeButton>
-          <Modal.Title>Add new user</Modal.Title>
+          <Modal.Title>Update user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form autoComplete="off">
             <div className="row">
               <div className="form-group col-md-6">
                 <label>Email</label>
-                <input type="email" className="form-control" placeholder="Email" value={email} onChange={(event) => onChangeEmail(event)} />
+                <input type="email" className="form-control" placeholder="Email" value={email} disabled />
               </div>
               <div className="form-group col-md-6">
                 <label>Username</label>
@@ -102,14 +98,12 @@ const ModalAddUser = ({ show, setShowModalAddUser, setRefreshTable }) => {
             <div className="row">
               <div className="form-group col-md-6">
                 <label>Password</label>
-                <input type="password" className="form-control" placeholder="Password" value={password} onChange={(event) => onChangePassword(event)} />
+                <input type="password" className="form-control" placeholder="Password" value="*****" disabled />
               </div>
               <div className="form-group col-md-6">
                 <label>Role</label>
-                <select id="inputRole" className="form-control" onChange={(event) => onChangeRole(event)}>
-                  <option value="USER" defaultValue>
-                    User
-                  </option>
+                <select id="inputRole" className="form-control" value={role} onChange={(event) => onChangeRole(event)}>
+                  <option value="USER">User</option>
                   <option value="ADMIN">Admin</option>
                 </select>
               </div>
@@ -138,7 +132,7 @@ const ModalAddUser = ({ show, setShowModalAddUser, setRefreshTable }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmitAddUser}>
+          <Button variant="primary" onClick={handleSubmitUpdateUser}>
             Save
           </Button>
         </Modal.Footer>
@@ -146,4 +140,4 @@ const ModalAddUser = ({ show, setShowModalAddUser, setRefreshTable }) => {
     </>
   );
 };
-export default ModalAddUser;
+export default ModalUpdateUser;
